@@ -1,0 +1,35 @@
+{
+    "name": "Tomodoro",
+    "short_name": "Tomodoro",
+    "start_url": "./index.html",
+    "description": "A pomodoro timer for the web",
+    "icons": [
+        {
+            "src": "./icons/icon192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+			"purpose": "any"
+        },
+        {
+            "src": "./icons/icon512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+			"purpose": "any"
+        },
+		{
+            "src": "./icons/maskable192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+			"purpose": "maskable"
+        },
+        {
+            "src": "./icons/maskable512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+			"purpose": "maskable"
+        }
+    ],
+    "theme_color": "#222233",
+    "background_color": "#222233",
+    "display": "standalone"
+}
