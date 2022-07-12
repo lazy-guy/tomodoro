@@ -12,7 +12,7 @@ const contentToCache = [
 	"./icons/maskable512.png",
 	"./site.webmanifest",
 	"./icons/favicon.png",
-	"./apple-touch-icon.png",
+	"./icons/appletouch.png",
 	"./GitHub-Mark-64px.png"
 ];
 
@@ -21,7 +21,7 @@ self.addEventListener("install", (e) => {
 	e.waitUntil(
 		(async () => {
 			const cache = await caches.open(cacheName);
-			await cache.addAll(contentToCache);
+			await cache.addAll(contentToCache).catch(err => console.log(err));
 		})()
 	);
 });
