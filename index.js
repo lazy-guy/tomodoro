@@ -88,7 +88,6 @@ function nextRound() {
 	}
 
 	timer.className = "t-" + roundInfo.current;
-	notify(`${finished} Complete`, body);
 	roundInfo.t = 0;
 	setTime();
 	if (roundInfo.running) {
@@ -97,6 +96,7 @@ function nextRound() {
 			maxDuration: config[roundInfo.current],
 		});
 	}
+	notify(`${finished} Complete`, body);
 }
 
 let notification;
