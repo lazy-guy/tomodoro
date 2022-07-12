@@ -2,7 +2,7 @@
  A pomodoro web app with always on top mode!
 
 ## Features:
-* Clean UI(Inspired from other pomodoro apps like Pomotroid)
+* Clean UI(Inspired from other pomodoro apps like [Pomotroid](https://github.com/Splode/pomotroid))
 * Works Offline
 * **PIP/Always on Top mode!!**
 
