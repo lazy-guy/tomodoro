@@ -8,7 +8,7 @@
 * Works Offline
 * **PIP/Always on Top mode!!**
 
-![PIP Demo](./pip.png)
+![PIP Demo](./pipdemo.png)
 
 ## About Always On Top/PIP Mode
 **Tested on Chrome Only! Does not work on Firefox Desktop**
