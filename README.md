@@ -1,10 +1,14 @@
 # Tomodoro
  A pomodoro web app with always on top mode!
 
+![Screenshot](./screenshot.png)
+
 ## Features:
 * Clean UI(Inspired from other pomodoro apps like [Pomotroid](https://github.com/Splode/pomotroid))
 * Works Offline
 * **PIP/Always on Top mode!!**
+
+![PIP Demo](./pip.png)
 
 ## About Always On Top/PIP Mode
 **Tested on Chrome Only! Does not work on Firefox Desktop**
