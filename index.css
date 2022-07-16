@@ -2,6 +2,7 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	font-family: "Consolas", monospace;
 }
 
 :root {
@@ -64,16 +65,14 @@ body {
 
 #menubtn {
 	border: none;
-	flex-grow: 0;
-	flex-shrink: 0;
 	position: fixed;
-	top: 0;
 	width: 60px;
 	height: 60px;
-	left: 0;
 	background-color: transparent;
-	z-index: 20;
 	cursor: pointer;
+	z-index: 30;
+	top: 0;
+	left: 0;
 }
 
 #menubtn span {
@@ -86,13 +85,6 @@ body {
 
 #menubtn:hover span {
 	background-color: var(--coloraccent);
-}
-
-#sound {
-	background-color: var(--color);
-	width: 54px;
-	height: 54px;
-	right: 0;
 }
 
 #menuline1 {
@@ -164,15 +156,15 @@ body {
 }
 
 .t-focus #progress {
-	stroke: var(--focus)
+	stroke: var(--focus);
 }
 
 .t-short #progress {
-	stroke: var(--short)
+	stroke: var(--short);
 }
 
 .t-long #progress {
-	stroke: var(--long)
+	stroke: var(--long);
 }
 
 #time {
@@ -201,15 +193,6 @@ body {
 .t-long #s-long {
 	opacity: 1;
 }
-
-#roundno {
-	position: fixed;
-	bottom: 10px;
-	left: auto;
-	right: auto;
-	font-size: 22px;
-}
-
 
 #pauseplay {
 	margin-top: 2vmin;
@@ -247,18 +230,27 @@ body {
 	opacity: 1 !important;
 }
 
-#resetround, #next {
+#resetround,
+#next {
 	width: 54px;
 	height: 54px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: var(--bgcolor);
 	border: none;
 	border-radius: 50%;
 	position: fixed;
 	bottom: 0;
 	right: 2vmin;
+	background-color: var(--bgcolor);
+}
+
+#roundno {
+	position: fixed;
+	bottom: 10px;
+	left: auto;
+	right: auto;
+	font-size: 22px;
 }
 
 #resetround {
@@ -304,12 +296,20 @@ body {
 	box-shadow: 0 2px 5px 0px rgba(0, 0, 0, 0.4);
 }
 
+.section {
+	margin-bottom: 30px;
+}
+
 h2 {
 	font-size: 32px;
-	margin-top: 20px;
-	margin-bottom: 10px;
+	margin: 10px auto;
 	padding-bottom: 10px;
 	border-bottom: 4px solid var(--color);
+}
+
+h3 {
+	font-size: 24px;
+	font-weight: normal;
 }
 
 .setting {
@@ -326,7 +326,7 @@ h2 {
 	font-size: 20px;
 }
 
-.setting button {
+.ibtn {
 	background-color: var(--bgcolor2);
 	color: var(--color);
 	border: none;
@@ -353,13 +353,34 @@ h2 {
 	font-size: 20px;
 }
 
-#theme-select {
+#theme-select, #notif-select {
 	background-color: var(--bgcolor2);
 	color: var(--color);
 	font-size: 20px;
 	padding: 5px;
 	border-radius: 5px;
 	border: none;
+}
+
+#colors {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.color {
+	width: 54px;
+	height: 54px;
+	border: 0px solid var(--color);
+	border-width: 0px;
+	border-radius: 50%;
+	transition: border-width 300ms;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.color[data-active="true"] {
+	border-width: 6px;
 }
 
 #about {
@@ -417,7 +438,6 @@ video {
 	background: black;
 	display: none;
 }
-
 
 #firstload {
 	display: none;

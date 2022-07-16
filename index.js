@@ -99,17 +99,53 @@ function nextRound() {
 	notify(`${finished} Complete`, body);
 }
 
+let notificationEnabled = true;
+let notificationSilent = false;
 let notification;
+let notifSelect = document.getElementById("notif-select");
+
+function setNotif(pomoNotif) {
+	if (pomoNotif === "disabled") {
+		notificationEnabled = false;
+	} else if (pomoNotif === "silent") {
+		notificationEnabled = true;
+		notificationSilent = true;
+	} else {
+		notificationEnabled = true;
+		notificationSilent = false;
+	}
+
+	notifSelect.value = pomoNotif;
+}
+
+if (localStorage.getItem("pomo-notif")) {
+	setNotif(localStorage.getItem("pomo-notif"));
+}
+
+notifSelect.addEventListener("change", function () {
+	setNotif(this.value);
+	localStorage.setItem("pomo-notif", this.value);
+});
+
 function notify(title, message) {
+	if (!notificationEnabled) return;
 	if (!("Notification" in window)) {
 		return;
 	} else if (Notification.permission === "granted") {
 		if (notification) notification.close();
-		notification = new Notification(title, { body: message });
+		notification = new Notification(title, {
+			body: message,
+			icon: "./icons/icon192.png",
+			silent: notificationSilent,
+		});
 	} else if (Notification.permission !== "denied") {
 		Notification.requestPermission().then(function (permission) {
 			if (permission === "granted") {
-				notification = new Notification(message);
+				notification = new Notification(title, {
+					body: message,
+					icon: "./icons/icon192.png",
+					silent: notificationSilent,
+				});
 			}
 		});
 	}
@@ -124,7 +160,7 @@ function pauseplay() {
 	if (roundInfo.running) {
 		timerWorker.postMessage({ type: "stop" });
 		roundInfo.running = false;
-		pauseplaybtn.title = "Start Timer"
+		pauseplaybtn.title = "Start Timer";
 		pauseplaybtn.className = "paused";
 	} else {
 		timerWorker.postMessage({
@@ -133,7 +169,7 @@ function pauseplay() {
 			maxDuration: config[roundInfo.current],
 		});
 		roundInfo.running = true;
-		pauseplaybtn.title = "Pause Timer"
+		pauseplaybtn.title = "Pause Timer";
 		pauseplaybtn.className = "playing";
 	}
 }
@@ -142,7 +178,6 @@ pauseplaybtn.addEventListener("click", pauseplay);
 
 nextbtn.addEventListener("click", () => {
 	nextRound();
-	timer.style.setProperty("--progress", "0");
 });
 
 let menuanim;
@@ -167,7 +202,7 @@ menubtn.addEventListener("click", () => {
 		menuanim.onfinish = () => {
 			menu.style.display = "none";
 		};
-		menubtn.title = "Open Settings"
+		menubtn.title = "Open Settings";
 		menubtn.classList.remove("cross");
 		isMenuActive = false;
 	} else {
@@ -187,15 +222,13 @@ menubtn.addEventListener("click", () => {
 		);
 		menuanim.onfinish = () => (mainel.style.display = "none");
 		menubtn.classList.add("cross");
-		menubtn.title = "Close Settings"
+		menubtn.title = "Close Settings";
 		isMenuActive = true;
 	}
 });
 
 document.getElementById("resetround").addEventListener("click", () => {
-	if (roundInfo.running) {
-		pauseplay();
-	}
+	if (roundInfo.running) pauseplay();
 	roundInfo.t = 0;
 	setTime();
 });
@@ -204,39 +237,281 @@ let root = document.documentElement;
 
 const themes = {
 	dark: {
-		"--bgcolor": "#222233",
-		"--bgcolor2": "#333344",
-		"--color": "#ddddff",
-		"--coloraccent": "#b2b2ff",
-		"color-scheme": "dark",
-		"--focus": "#d64f4f",
-		"--short": "#26baba",
-		"--long": "#5fbbe6",
+		props: {
+			"color-scheme": "dark",
+			"--focus": "#d64f4f",
+			"--short": "#26baba",
+			"--long": "#5fbbe6",
+		},
+		defaccent: "lavender",
 	},
 	light: {
-		"--bgcolor": "#ffffff",
-		"--bgcolor2": "#efefff",
-		"--color": "#222222",
-		"--coloraccent": "#4169e4",
-		"color-scheme": "light",
-		"--focus": "#d64f4f",
-		"--short": "#26baba",
-		"--long": "#5fbbe6",
+		props: {
+			"color-scheme": "light",
+			"--focus": "#d64f4f",
+			"--short": "#26baba",
+			"--long": "#5fbbe6",
+		},
+		defaccent: "grey",
 	},
+	black: {
+		props: {
+			"color-scheme": "dark",
+			"--focus": "#d64f4f",
+			"--short": "#26baba",
+			"--long": "#5fbbe6",
+		},
+		defaccent: "lavender",
+	},
+	white: {
+		props: {
+			"color-scheme": "light",
+			"--focus": "#d64f4f",
+			"--short": "#26baba",
+			"--long": "#5fbbe6",
+		},
+		defaccent: "grey",
+	}
+};
+
+const accents = {
+	dark: {
+		red: {
+			"--bgcolor": "#252222",
+			"--bgcolor2": "#403333",
+			"--color": "#ffeeee",
+			"--coloraccent": "#ffaaaa",
+		},
+		violet: {
+			"--bgcolor": "#252225",
+			"--bgcolor2": "#3a2a3a",
+			"--color": "#ffeeff",
+			"--coloraccent": "#ee82ee",
+		},
+		blue: {
+			"--bgcolor": "#131320",
+			"--bgcolor2": "#1d3752",
+			"--color": "#eeeeff",
+			"--coloraccent": "#9bb2ff",
+		},
+		lavender: {
+			"--bgcolor": "#222230",
+			"--bgcolor2": "#333340",
+			"--color": "#eeeeff",
+			"--coloraccent": "#b2b2ff",
+		},
+		green: {
+			"--bgcolor": "#1d201d",
+			"--bgcolor2": "#143814",
+			"--color": "#eeffee",
+			"--coloraccent": "#8dd48d",
+		},
+		teal: {
+			"--bgcolor": "#111f1f",
+			"--bgcolor2": "#334040",
+			"--color": "#eeffff",
+			"--coloraccent": "#00aaaa",
+		},
+		grey: {
+			"--bgcolor": "#222222",
+			"--bgcolor2": "#444444",
+			"--color": "#dddddd",
+			"--coloraccent": "#aaaaaa",
+		},
+	},
+	black: {
+		red: {
+			"--bgcolor2": "#403333",
+			"--color": "#ffeeee",
+			"--coloraccent": "#ffaaaa",
+			"--bgcolor": "#000000",
+		},
+		violet: {
+			"--bgcolor": "#000000",
+			"--bgcolor2": "#312131",
+			"--color": "#ffeeff",
+			"--coloraccent": "#ee82ee",
+		},
+		blue: {
+			"--bgcolor2": "#1d3752",
+			"--color": "#eeeeff",
+			"--coloraccent": "#9bb2ff",
+			"--bgcolor": "#000000",
+		},
+		lavender: {
+			"--bgcolor2": "#333340",
+			"--color": "#eeeeff",
+			"--coloraccent": "#b2b2ff",
+			"--bgcolor": "#000000",
+		},
+		green: {
+			"--bgcolor2": "#143814",
+			"--color": "#eeffee",
+			"--coloraccent": "#8dd48d",
+			"--bgcolor": "#000000",
+		},
+		teal: {
+			"--bgcolor": "#000000",
+			"--bgcolor2": "#303f3f",
+			"--color": "#eeffff",
+			"--coloraccent": "#00aaaa",
+		},
+		grey: {
+			"--bgcolor2": "#444444",
+			"--color": "#dddddd",
+			"--coloraccent": "#aaaaaa",
+			"--bgcolor": "#000000",
+		},
+	},
+	light: {
+		red: {
+			"--bgcolor": "#fff3f3",
+			"--bgcolor2": "#ffd2d2",
+			"--color": "#222222",
+			"--coloraccent": "#d64f4f",
+		},
+		violet: {
+			"--bgcolor": "#fff3ff",
+			"--bgcolor2": "#ffd2ff",
+			"--color": "#222222",
+			"--coloraccent": "#ee82ee",
+		},
+		blue: {
+			"--bgcolor": "#f3f3ff",
+			"--bgcolor2": "#d2d2ff",
+			"--color": "#222222",
+			"--coloraccent": "#4169e4",
+		},
+		lavender: {
+			"--bgcolor": "#faf1ff",
+			"--bgcolor2": "#e2d4ff",
+			"--color": "#222222",
+			"--coloraccent": "#8b51ff",
+		},
+		teal: {
+			"--bgcolor": "#faffff",
+			"--bgcolor2": "#cbebeb",
+			"--color": "#222222",
+			"--coloraccent": "#008080",
+		},
+		green: {
+			"--bgcolor": "#f3fff3",
+			"--bgcolor2": "#cafcc1",
+			"--color": "#222222",
+			"--coloraccent": "#39743d",
+		},
+		grey: {
+			"--bgcolor": "#ffffff",
+			"--bgcolor2": "#dddddd",
+			"--color": "#333333",
+			"--coloraccent": "#555555",
+		},
+	},
+	white: {
+		red: {
+			"--bgcolor": "#ffffff",
+			"--bgcolor2": "#ffd2d2",
+			"--color": "#222222",
+			"--coloraccent": "#ee7777",
+		},
+		violet: {
+			"--bgcolor": "#ffffff",
+			"--bgcolor2": "#ffd2ff",
+			"--color": "#222222",
+			"--coloraccent": "#ee82ee",
+		},
+		blue: {
+			"--bgcolor": "#ffffff",
+			"--bgcolor2": "#d2d2ff",
+			"--color": "#222222",
+			"--coloraccent": "#4169e4",
+		},
+		lavender: {
+			"--bgcolor": "#ffffff",
+			"--bgcolor2": "#e2d4ff",
+			"--color": "#222222",
+			"--coloraccent": "#8b51ff",
+		},
+		teal: {
+			"--bgcolor": "#ffffff",
+			"--bgcolor2": "#cbebeb",
+			"--color": "#222222",
+			"--coloraccent": "#008080",
+		},
+		green: {
+			"--bgcolor": "#ffffff",
+			"--bgcolor2": "#cafcc1",
+			"--color": "#222222",
+			"--coloraccent": "#39743d",
+		},
+		grey: {
+			"--bgcolor": "#ffffff",
+			"--bgcolor2": "#dddddd",
+			"--color": "#333333",
+			"--coloraccent": "#555555",
+		},
+	}
 };
 
 let theme = "dark";
+let themeAccent = "lavender";
 
-function setTheme(ntheme) {
-	if (ntheme !== "custom") {
-		for (prop in themes[ntheme]) {
-			root.style.setProperty(prop, themes[ntheme][prop]);
+let colorsDiv = document.getElementById("colors");
+
+function setTheme(basetheme = "dark", accent) {
+	if (!accent) accent = themes[basetheme].defaccent;
+	if (basetheme !== "custom") {
+		for (let prop in themes[basetheme].props) {
+			root.style.setProperty(prop, themes[basetheme].props[prop]);
 		}
-		localStorage.setItem("pomo-theme", ntheme);
 		document.getElementById("t-" + theme).removeAttribute("selected");
-		theme = ntheme;
-		document.getElementById("t-" + ntheme).setAttribute("selected", true);
+		addColorButtons(basetheme);
+		document
+			.getElementById("t-" + basetheme)
+			.setAttribute("selected", true);
+		setAccent(basetheme, accent);
 	}
+}
+
+let colorBtns = [];
+
+function addColorButtons(basetheme) {
+	colorsDiv.innerHTML = "";
+	colorBtns = [];
+	for (let accent in accents[basetheme]) {
+		let btn = document.createElement("button");
+		btn.className = "color";
+		btn.style.backgroundColor = accents[basetheme][accent]["--coloraccent"];
+		btn.dataset.color = basetheme + "-" + accent;
+		btn.addEventListener("click", () => {
+			setAccent(basetheme, accent);
+		});
+		btn.title = accent;
+		colorBtns.push(btn);
+		colorsDiv.appendChild(btn);
+	}
+}
+
+let themeMeta = document.getElementById("theme-meta")
+
+function setAccent(basetheme, accent) {
+	for (let prop in accents[basetheme][accent]) {
+		root.style.setProperty(prop, accents[basetheme][accent][prop]);
+	}
+	themeMeta.setAttribute("content", accents[basetheme][accent]["--bgcolor"])
+	colorBtns.forEach((btn) => {
+		if (btn.dataset.active === "true") {
+			btn.dataset.active = "false";
+		}
+		if (btn.dataset.color === basetheme + "-" + accent) {
+			btn.dataset.active = "true";
+		}
+	});
+
+	localStorage.setItem("pomo-theme", basetheme);
+	localStorage.setItem("pomo-theme-accent", accent);
+	theme = basetheme;
+	themeAccent = accent;
 }
 
 document.getElementById("theme-select").addEventListener("change", function () {
@@ -245,8 +520,11 @@ document.getElementById("theme-select").addEventListener("change", function () {
 
 if (localStorage.getItem("pomo-theme")) {
 	theme = localStorage.getItem("pomo-theme");
-	setTheme(theme);
+	if (localStorage.getItem("pomo-theme-accent")) {
+		themeAccent = localStorage.getItem("pomo-theme-accent");
+	}
 }
+setTheme(theme, themeAccent);
 
 if (localStorage.getItem("pomo-config")) {
 	config = JSON.parse(localStorage.getItem("pomo-config"));
@@ -353,7 +631,7 @@ document.getElementById("rounds-dec").addEventListener("click", () => {
 	roundnoDiv.innerText = roundInfo.focusNum + "/" + config.longGap;
 	saveConfig();
 });
-// Setup
+
 let canvas = document.createElement("canvas");
 canvas.width = canvas.height = 400;
 let ctx = canvas.getContext("2d");
@@ -362,10 +640,10 @@ let video = document.createElement("video");
 let pipActive = false;
 
 function loop() {
-	ctx.fillStyle = themes[theme]["--bgcolor"];
+	ctx.fillStyle = accents[theme][themeAccent]["--bgcolor"];
 	ctx.fillRect(0, 0, 400, 400);
 
-	ctx.fillStyle = themes[theme]["--color"];
+	ctx.fillStyle = accents[theme][themeAccent]["--color"];
 	ctx.font = "80px monospace";
 	ctx.textAlign = "center";
 	let seconds = config[roundInfo.current] - roundInfo.t;
@@ -384,13 +662,13 @@ function loop() {
 	ctx.font = "32px monospace";
 	ctx.fillText(fullname[roundInfo.current].toUpperCase(), 200, 260, 280);
 
-	ctx.strokeStyle = themes[theme]["--coloraccent"];
+	ctx.strokeStyle = accents[theme][themeAccent]["--coloraccent"];
 	ctx.lineWidth = 4;
 	ctx.beginPath();
 	ctx.arc(200, 200, 180, 0, Math.PI * 2);
 	ctx.stroke();
 
-	ctx.strokeStyle = themes[theme]["--" + roundInfo.current];
+	ctx.strokeStyle = themes[theme].props["--" + roundInfo.current];
 	ctx.lineWidth = 16;
 	ctx.beginPath();
 	ctx.arc(
@@ -419,21 +697,21 @@ function setup() {
 }
 
 setup();
-video.controls = true
-video.addEventListener("play", () => {
-	if(!roundInfo.running) pauseplay()
-})
-video.addEventListener("pause", () => {
-	if(roundInfo.running) pauseplay()
-})
-if (document.pictureInPictureEnabled) {
-	let stream;
+
+if (document.pictureInPictureEnabled || document.fullscreenEnabled) {
 	document.body.appendChild(video);
 	document.body.appendChild(canvas);
 	canvas.id = "canvas";
-	stream = canvas.captureStream();
+	let stream = canvas.captureStream();
 	video.srcObject = stream;
 	video.autoplay = false;
+	video.controls = true;
+	video.addEventListener("play", () => {
+		if (!roundInfo.running) pauseplay();
+	});
+	video.addEventListener("pause", () => {
+		if (roundInfo.running) pauseplay();
+	});
 	loop();
 
 	video.onenterpictureinpicture = () => {
@@ -442,39 +720,13 @@ if (document.pictureInPictureEnabled) {
 	video.onleavepictureinpicture = () => {
 		pipActive = false;
 	};
-	document.getElementById("popupbtn").addEventListener("click", () => {
-		if (document.pictureInPictureElement) {
-			document.exitPictureInPicture();
-			return;
-		}
-		loop();
-		video.play();
-		video.requestPictureInPicture();
-	});
-} else if (document.fullscreenEnabled) {
-	let stream;
-	document.body.appendChild(video);
-	document.body.appendChild(canvas);
-	canvas.id = "canvas";
-	stream = canvas.captureStream();
-	video.srcObject = stream;
-	video.autoplay = true;
-	video.controls = true;
-	loop();
-
 	video.onfullscreenchange = () => {
 		if (document.fullscreenElement) {
 			pipActive = true;
 		} else {
-			video.style.display = "none"
+			video.style.display = "none";
 			pipActive = false;
 		}
-	};
-	video.onenterpictureinpicture = () => {
-		pipActive = true;
-	};
-	video.onleavepictureinpicture = () => {
-		pipActive = false;
 	};
 	document.getElementById("popupbtn").addEventListener("click", () => {
 		if (document.pictureInPictureElement) {
@@ -483,9 +735,15 @@ if (document.pictureInPictureEnabled) {
 		}
 		loop();
 		video.play();
-		video.style.display = "block";
-		video.requestFullscreen();
+		if (document.pictureInPictureEnabled) {
+			video.requestPictureInPicture();
+		} else {
+			video.style.display = "block";
+			video.requestFullscreen();
+		}
 	});
+} else {
+	document.getElementById("popupbtn").style.display = "none";
 }
 
 document.addEventListener("keydown", (event) => {
@@ -498,17 +756,15 @@ document.addEventListener("keydown", (event) => {
 		}
 		pauseplaybtn.focus();
 		pauseplay();
-		console.log("yo");
 	}
 });
 
-
 if (!localStorage.getItem("pomo-notfirstload")) {
-	document.getElementById("firstload").style.display = "block"
-	mainel.style.display = "none"
+	document.getElementById("firstload").style.display = "block";
+	mainel.style.display = "none";
 	document.getElementById("closeintro").addEventListener("click", () => {
-		document.getElementById("firstload").style.display = "none"
-		localStorage.setItem("pomo-notfirstload", "notfirstload")
-		mainel.style.display = "flex"
-	})
+		document.getElementById("firstload").style.display = "none";
+		localStorage.setItem("pomo-notfirstload", "notfirstload");
+		mainel.style.display = "flex";
+	});
 }

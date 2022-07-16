@@ -18,7 +18,7 @@
 			href="./icons/favicon.png"
 		/>
 		<link rel="manifest" href="./site.webmanifest" />
-		<meta name="theme-color" content="#222233" />
+		<meta name="theme-color" id="theme-meta" content="#222233" />
 	</head>
 	<body>
 		<button id="menubtn" title="Open Settings">
@@ -78,7 +78,13 @@
 				</button>
 			</div>
 			<button id="resetround" title="Reset Current Timer">
-				<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M12 12h4v24h-4zm7 12l17 12V12z"/></svg>
+				<svg
+					class="svg-icon"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 48 48"
+				>
+					<path d="M12 12h4v24h-4zm7 12l17 12V12z" />
+				</svg>
 			</button>
 			<div id="roundno" title="Number of Focus Rounds"></div>
 			<button id="next" title="Next Round">
@@ -94,122 +100,167 @@
 		<div id="menu">
 			<div id="menu-title">Tomodoro</div>
 			<div id="settings">
-				<h2>Timer</h2>
-				<div class="setting">
-					<label for="focus-input">Focus: <span></span></label>
-					<div class="input-holder">
-						<button id="focus-dec">-</button>
-						<input
-							type="number"
-							name="focus-input"
-							id="focus-input"
-							min="1"
-							max="180"
-						/>
-						<button id="focus-inc">+</button> minutes
+				<section class="section">
+					<h2>Timer</h2>
+					<div class="setting">
+						<label for="focus-input">Focus: <span></span></label>
+						<div class="input-holder">
+							<button class="ibtn" id="focus-dec">-</button>
+							<input
+								type="number"
+								name="focus-input"
+								id="focus-input"
+								min="1"
+								max="180"
+							/>
+							<button class="ibtn" id="focus-inc">+</button>
+							minutes
+						</div>
 					</div>
-				</div>
-				<div class="setting">
-					<label for="short-input">Short Break: <span></span></label>
-					<div class="input-holder">
-						<button id="short-dec">-</button>
-						<input
-							type="number"
-							name="short-input"
-							id="short-input"
-							min="1"
-							max="180"
-						/>
-						<button id="short-inc">+</button> minutes
+					<div class="setting">
+						<label for="short-input"
+							>Short Break: <span></span
+						></label>
+						<div class="input-holder">
+							<button class="ibtn" id="short-dec">-</button>
+							<input
+								type="number"
+								name="short-input"
+								id="short-input"
+								min="1"
+								max="180"
+							/>
+							<button class="ibtn" id="short-inc">+</button>
+							minutes
+						</div>
 					</div>
-				</div>
-				<div class="setting">
-					<label for="long-input">Long Break: <span></span></label>
-					<div class="input-holder">
-						<button id="long-dec">-</button>
-						<input
-							type="number"
-							name="long-input"
-							id="long-input"
-							min="1"
-							max="180"
-						/>
-						<button id="long-inc">+</button> minutes
+					<div class="setting">
+						<label for="long-input"
+							>Long Break: <span></span
+						></label>
+						<div class="input-holder">
+							<button class="ibtn" id="long-dec">-</button>
+							<input
+								type="number"
+								name="long-input"
+								id="long-input"
+								min="1"
+								max="180"
+							/>
+							<button class="ibtn" id="long-inc">+</button>
+							minutes
+						</div>
 					</div>
-				</div>
-				<div class="setting">
-					<label for="rounds-input">Rounds</label>
+					<div class="setting">
+						<label for="rounds-input">Rounds</label>
+						<br />
+						Number of focus sessions between long breaks.
+						<div class="input-holder">
+							<button class="ibtn" id="rounds-dec">-</button>
+							<input
+								type="number"
+								name="rounds-input"
+								id="rounds-input"
+								min="1"
+								max="18"
+							/>
+							<button class="ibtn" id="rounds-inc">+</button>
+							rounds
+						</div>
+					</div>
+				</section>
+				<section class="section">
+					<h2>Appearance</h2>
+					<div class="setting">
+						<label for="theme">Theme:</label>
+						<select name="theme" id="theme-select" title="Theme">
+							<option value="dark" id="t-dark" selected>Dark</option>
+							<option value="black" id="t-black">Black</option>
+							<option value="light" id="t-light">Light</option>
+							<option value="white" id="t-white">White</option>
+						</select>
+					</div>
+					<div class="setting" id="accents">
+						<h3>Accent Color:</h3>
+						<div id="colors"></div>
+					</div>
+				</section>
+				<section class="section">
+					<h2>Sounds & Notifications</h2>
+					<div class="setting">
+						<label for="notif">Notifications:</label>
+						<select
+							name="notif"
+							id="notif-select"
+							title="Notification Type"
+						>
+							<option value="enabled">Enabled</option>
+							<option value="silent">Silent</option>
+							<option value="disabled">Disabled</option>
+						</select>
+						<br /><br />
+						Make sure that your browser allows notifications from
+						this site.
+					</div>
+				</section>
+				<section class="section">
+					<h2>About PIP Mode</h2>
+					You can enable PIP mode by clicking on its icon on the top
+					right. In supported desktop browsers, it will activate
+					Picture-In-Picture mode.
 					<br />
-					Number of focus sessions between long breaks.
-					<div class="input-holder">
-						<button id="rounds-dec">-</button>
-						<input
-							type="number"
-							name="rounds-input"
-							id="rounds-input"
-							min="1"
-							max="18"
-						/>
-						<button id="rounds-inc">+</button> rounds
+					If you are on a mobile device, clicking on that button will
+					activate fullscreen mode. In order to switch to PIP mode,
+					just go to your device's homescreen without exiting
+					fullscreen. If your browser is supported then PIP mode will
+					be activated.
+					<br />
+					If your desktop browser does not support Picture-In-Picture
+					API, like Firefox, then it will open fullscreen as well.
+				</section>
+				<section class="section">
+					<h2>About</h2>
+					<div id="about">
+						<div id="about-name">Tomodoro</div>
+						<div id="about-desc">
+							Tomodoro is an open source pomodoro web app with
+							features like offline support and PIP mode.
+						</div>
+						<a
+							href="https://github.com/lazy-guy/tomodoro"
+							target="_blank"
+							id="github-link"
+						>
+							<img
+								id="githublogoimg"
+								alt="GitHub"
+								src="./GitHub-Mark-64px.png"
+							/>
+							View on GitHub
+						</a>
 					</div>
-				</div>
-				<br />
-				<br />
-				<h2>Appearance</h2>
-				<div class="setting">
-					<label for="theme">Theme:</label>
-					<select name="theme" id="theme-select" title="Theme">
-						<option value="dark" id="t-dark" selected>
-							Dark (Default)
-						</option>
-						<option value="light" id="t-light">Light</option>
-					</select>
-				</div>
-				<br />
-				<br />
-				<h2>About PIP Mode</h2>
-				You can enable PIP mode by clicking on its icon on the top
-				right. In supported desktop browsers, it will activate
-				Picture-In-Picture mode.
-				<br />
-				If you are on a mobile device, clicking on that button will
-				activate fullscreen mode. In order to switch to PIP mode, just
-				go to your device's homescreen without exiting fullscreen. If
-				your browser is supported then PIP mode will be activated.
-				<br />
-				If your desktop browser does not support Picture-In-Picture API,
-				like Firefox, then it will open fullscreen as well.
-				<br /><br /><br />
-				<h2>About</h2>
-				<div id="about">
-					<div id="about-name">Tomodoro</div>
-					<div id="about-desc">Tomodoro is an open source pomodoro web app with features like offline support and
-						PIP mode.</div>
-					<a href="https://github.com/lazy-guy/tomodoro" target="_blank" id="github-link">
-						<img id="githublogoimg" alt="GitHub" src="./GitHub-Mark-64px.png" />
-						View on GitHub
-					</a>
-				</div>
+				</section>
 			</div>
 		</div>
 		<div id="firstload">
 			<div id="firstloadcontent">
 				<h2>Welcome to Tomodoro!</h2>
-				Tomodoro is an open source pomodoro web app with offline support and
-				PIP mode.
+				Tomodoro is an open source pomodoro web app with offline support
+				and PIP mode.
 				<br /><br /><br />
 				<h2>About PIP mode</h2>
-				Tomodoro supports Always on Top mode, or Picture-In-Picture mode,
-				right in the browser, without having to install any electron app.<br/>
-				PIP mode is supported on Chromium based browsers(Tested on desktop
-				and android Chrome).<br /> Safari not tested (yet) but might work.<br /> Desktop
-				Firefox is not supported.
-				<br /><br /><br />
+				Tomodoro supports Always on Top mode, or Picture-In-Picture
+				mode, right in the browser, without having to install any
+				electron app.<br />
+				PIP mode is supported on Chromium based browsers(Tested on
+				desktop and android Chrome).<br />
+				Safari not tested (yet) but might work.<br />
+				Desktop Firefox is not supported. <br /><br /><br />
 				<h2>PIP mode on mobile devices</h2>
-				If you are on a mobile device, clicking on that button will activate
-				fullscreen mode. In order to switch to PIP mode, just go to your
-				device's homescreen without exiting fullscreen. If your browser is
-				supported then PIP mode will be activated.
+				If you are on a mobile device, clicking on that button will
+				activate fullscreen mode. In order to switch to PIP mode, just
+				go to your device's homescreen without exiting fullscreen. If
+				your browser is supported then PIP mode will be activated.
 			</div>
 			<button id="closeintro">Let's Get Started!</button>
 		</div>

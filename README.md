@@ -5,6 +5,7 @@
 
 ## Features:
 * Clean UI(Inspired from other pomodoro apps like [Pomotroid](https://github.com/Splode/pomotroid))
+* Themes
 * Works Offline
 * **PIP/Always on Top mode!!**
 
