@@ -271,7 +271,7 @@ const themes = {
 			"--long": "#5fbbe6",
 		},
 		defaccent: "grey",
-	}
+	},
 };
 
 const accents = {
@@ -450,7 +450,7 @@ const accents = {
 			"--color": "#333333",
 			"--coloraccent": "#555555",
 		},
-	}
+	},
 };
 
 let theme = "dark";
@@ -492,13 +492,13 @@ function addColorButtons(basetheme) {
 	}
 }
 
-let themeMeta = document.getElementById("theme-meta")
+let themeMeta = document.getElementById("theme-meta");
 
 function setAccent(basetheme, accent) {
 	for (let prop in accents[basetheme][accent]) {
 		root.style.setProperty(prop, accents[basetheme][accent][prop]);
 	}
-	themeMeta.setAttribute("content", accents[basetheme][accent]["--bgcolor"])
+	themeMeta.setAttribute("content", accents[basetheme][accent]["--bgcolor"]);
 	colorBtns.forEach((btn) => {
 		if (btn.dataset.active === "true") {
 			btn.dataset.active = "false";
@@ -716,31 +716,40 @@ if (document.pictureInPictureEnabled || document.fullscreenEnabled) {
 
 	video.onenterpictureinpicture = () => {
 		pipActive = true;
+		video.classList.add("pipactive");
 	};
 	video.onleavepictureinpicture = () => {
+		if (document.fullscreenElement) return;
 		pipActive = false;
+		video.classList.remove("pipactive");
 	};
-	video.onfullscreenchange = () => {
+	video.onfullscreenchange = (ev) => {
 		if (document.fullscreenElement) {
 			pipActive = true;
+			video.classList.add("pipactive");
 		} else {
-			video.style.display = "none";
 			pipActive = false;
+			video.classList.remove("pipactive");
 		}
 	};
 	document.getElementById("popupbtn").addEventListener("click", () => {
 		if (document.pictureInPictureElement) {
 			document.exitPictureInPicture();
+			video.classList.remove("pipactive");
+			return;
+		}
+		if (pipActive) {
+			pipActive = false;
+			video.classList.remove("pipactive");
 			return;
 		}
 		loop();
 		video.play();
+		video.classList.add("pipactive");
 		if (document.pictureInPictureEnabled) {
 			video.requestPictureInPicture();
-		} else {
-			video.style.display = "block";
-			video.requestFullscreen();
 		}
+		pipActive = true;
 	});
 } else {
 	document.getElementById("popupbtn").style.display = "none";

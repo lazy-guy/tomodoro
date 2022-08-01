@@ -430,13 +430,18 @@ canvas {
 }
 
 video {
-	width: 300px;
-	height: 300px;
+	width: 200px;
+	height: 200px;
 	position: fixed;
-	top: 310px;
-	left: 0;
+	top: 60px;
+	right: 15px;
 	background: black;
 	display: none;
+	box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.8);
+}
+
+video.pipactive {
+	display: block;
 }
 
 #firstload {
