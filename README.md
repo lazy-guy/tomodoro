@@ -12,11 +12,13 @@
 ![PIP Demo](./pip.png)
 
 ## About Always On Top/PIP Mode
-**Tested on Chrome Only! Does not work on Firefox Desktop**
+**Not tested on Safari but might work**
 
 PIP mode works by drawing on a canvas, capturing its stream and using it as source of a video element. Then it requests Picture-In-Picture.
 
-On mobile devices(Tested on Chrome for Android), it will switch to fullscreen mode, after which going back to device homescreen(without exiting fullscreen) will trigger PIP mode. 
+On desktop firefox, PIP button will only make the video visible but will not activate PIP. To switch to PIP mode, right click on the video and select "Watch in Picture-In-Picture".
+
+On android browsers, like Chrome for Android which does not support the picture-in-piture API, in order to switch to PIP mode, make the video fullscreen and then go to your device's homescreen without exiting fullscreen. If your browser is supported then PIP mode will be activated.
 
 
 ## To-Do
