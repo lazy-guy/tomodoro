@@ -1,7 +1,7 @@
 # Tomodoro
  A pomodoro web app with always on top mode!
 
-![Screenshot](./screenshot.png)
+![Screenshot](https://lazy-guy.github.io/tomodoro/screenshot.png)
 
 ## Features:
 * Clean UI(Inspired from other pomodoro apps like [Pomotroid](https://github.com/Splode/pomotroid))
@@ -9,7 +9,7 @@
 * Works Offline
 * **PIP/Always on Top mode!!**
 
-![PIP Demo](./pip.png)
+![PIP Demo](https://lazy-guy.github.io/tomodoro/pip.png)
 
 ## About Always On Top/PIP Mode
 **Not tested on Safari but might work**
