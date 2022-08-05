@@ -267,11 +267,6 @@ if (localStorage.getItem("pomo-audio-type")) {
 	audioSelect.value = "disabled";
 }
 
-audioSelect.addEventListener("change", () => {
-	audioType = audioSelect.value;
-	localStorage.setItem("pomo-audio-type", audioType);
-});
-
 let audioCtx;
 let noiseSource;
 let gain;
@@ -279,6 +274,14 @@ let noiseTimeout;
 
 let isWhiteNoiseRunning = false;
 let isFadingOut = false;
+
+audioSelect.addEventListener("change", () => {
+	audioType = audioSelect.value;
+	if(audioType !== "noise" && isWhiteNoiseRunning) {
+		fadeOut()
+	}
+	localStorage.setItem("pomo-audio-type", audioType);
+});
 
 function initNoise() {
 	if (!audioCtx) {

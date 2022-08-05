@@ -409,6 +409,8 @@ h3 {
 	color: var(--bgcolor);
 	background-color: var(--coloraccent);
 	cursor: pointer;
+	margin-top: 5px;
+	display: inline-block;
 }
 
 .hover-shadow {
