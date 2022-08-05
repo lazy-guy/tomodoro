@@ -43,4 +43,4 @@ Icons from [Material Icons](https://developers.google.com/fonts/docs/material_ic
 
 
 ## License
-MIT
+[MIT](LICENSE.md)
