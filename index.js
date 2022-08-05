@@ -296,7 +296,7 @@ function initNoise() {
 	noiseSource.buffer = buffer;
 
 	gain = audioCtx.createGain();
-	gain.gain = 0.7;
+	gain.gain = 0.5;
 
 	noiseSource.connect(gain);
 	gain.connect(audioCtx.destination);
@@ -326,11 +326,11 @@ function fadeIn() {
 	if (!isFadingOut) {
 		initNoise();
 		gain.gain.setValueAtTime(0, audioCtx.currentTime);
-		gain.gain.linearRampToValueAtTime(0.7, audioCtx.currentTime + 1);
+		gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1);
 		playNoise(0);
 	} else {
 		gain.gain.setValueAtTime(gain.gain.value, audioCtx.currentTime);
-		gain.gain.linearRampToValueAtTime(0.7, audioCtx.currentTime + 1);
+		gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1);
 	}
 }
 
