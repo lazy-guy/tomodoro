@@ -411,6 +411,7 @@ h3 {
 	cursor: pointer;
 	margin-top: 5px;
 	display: inline-block;
+	width: fit-content;
 }
 
 .hover-shadow {
