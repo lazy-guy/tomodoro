@@ -6,31 +6,31 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Pomodoro</title>
 		<link rel="stylesheet" href="./index.css" />
-		<link
-			rel="apple-touch-icon"
-			sizes="180x180"
-			href="./icons/appletouch.png"
-		/>
-		<link
-			rel="icon"
-			type="image/png"
-			sizes="32x32"
-			href="./icons/favicon.png"
-		/>
+		<link rel="apple-touch-icon" sizes="180x180" href="./icons/appletouch.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon.png" />
 		<link rel="manifest" href="./site.webmanifest" />
 		<meta name="theme-color" id="theme-meta" content="#222233" />
 	</head>
 	<body>
-		<button id="menubtn" title="Open Settings">
-			<span id="menuline1"></span>
-			<span id="menuline2"></span>
-		</button>
+		<button id="menubtn" title="Open Settings"></button>
+		<div id="taskswitcher">
+			<button id="statbtn" title="View Statistics">
+				<span id="statline1"></span>
+				<span id="statline2"></span>
+				<span id="statline3"></span>
+			</button>
+			<select name="task" id="task-select" title="Switch Task"></select>
+			<div id="no-task-title" title="No Task Found">Tomodoro</div>
+			<button id="managetaskbtn" title="Manage Task">
+				<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+					<path
+						d="M6 34.5V42h7.5l22.13-22.13-7.5-7.5L6 34.5zm35.41-20.41c.78-.78.78-2.05 0-2.83l-4.67-4.67c-.78-.78-2.05-.78-2.83 0l-3.66 3.66 7.5 7.5 3.66-3.66z"
+					/>
+				</svg>
+			</button>
+		</div>
 		<button id="popupbtn" title="Toggle PIP Mode">
-			<svg
-				class="svg-icon"
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox="0 0 48 48"
-			>
+			<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
 				<path
 					d="M38 14H22v12h16V14zm4-8H6c-2.21 0-4 1.79-4 4v28c0 2.21 1.79 3.96 4 3.96h36c2.21 0 4-1.76 4-3.96V10c0-2.21-1.79-4-4-4zm0 32.03H6V9.97h36v28.06z"
 				/>
@@ -40,14 +40,7 @@
 			<div id="timer" class="t-focus">
 				<svg id="ring" viewbox="0 0 100 100">
 					<circle id="secondary" cx="50" cy="50" r="48" fill="none" />
-					<circle
-						id="progress"
-						cx="50"
-						cy="50"
-						r="48"
-						fill="none"
-						pathlength="100"
-					/>
+					<circle id="progress" cx="50" cy="50" r="48" fill="none" pathlength="100" />
 				</svg>
 				<div id="time"></div>
 
@@ -57,20 +50,12 @@
 					<span id="s-long">LONG BREAK</span>
 				</div>
 				<button id="pauseplay" class="paused" title="Start Timer">
-					<svg
-						id="playing"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 48 48"
-					>
+					<svg id="playing" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
 						<path
 							d="M18 32h4V16h-4v16zm6-28C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm0 36c-8.82 0-16-7.18-16-16S15.18 8 24 8s16 7.18 16 16-7.18 16-16 16zm2-8h4V16h-4v16z"
 						/>
 					</svg>
-					<svg
-						id="paused"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 48 48"
-					>
+					<svg id="paused" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
 						<path
 							d="M20 33l12-9-12-9v18zm4-29C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm0 36c-8.82 0-16-7.18-16-16S15.18 8 24 8s16 7.18 16 16-7.18 16-16 16z"
 						/>
@@ -78,75 +63,45 @@
 				</button>
 			</div>
 			<button id="resetround" title="Reset Current Timer">
-				<svg
-					class="svg-icon"
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 48 48"
-				>
+				<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
 					<path d="M12 12h4v24h-4zm7 12l17 12V12z" />
 				</svg>
 			</button>
 			<div id="roundno" title="Number of Focus Rounds"></div>
 			<button id="next" title="Next Round">
-				<svg
-					class="svg-icon"
-					xmlns="http://www.w3.org/2000/svg"
-					viewBox="0 0 48 48"
-				>
+				<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
 					<path d="M12 36l17-12-17-12v24zm20-24v24h4V12h-4z" />
 				</svg>
 			</button>
 		</main>
-		<div id="menu">
-			<div id="menu-title">Tomodoro</div>
-			<div id="settings">
+		<div id="menu" class="scrollbar">
+			<div class="menu-title">Tomodoro</div>
+			<div class="content">
 				<section class="section">
 					<h2>Timer</h2>
 					<div class="setting">
 						<label for="focus-input">Focus: <span></span></label>
 						<div class="input-holder">
 							<button class="ibtn" id="focus-dec">-</button>
-							<input
-								type="number"
-								name="focus-input"
-								id="focus-input"
-								min="1"
-								max="180"
-							/>
+							<input type="number" name="focus-input" id="focus-input" min="1" max="180" />
 							<button class="ibtn" id="focus-inc">+</button>
 							minutes
 						</div>
 					</div>
 					<div class="setting">
-						<label for="short-input"
-							>Short Break: <span></span
-						></label>
+						<label for="short-input">Short Break: <span></span></label>
 						<div class="input-holder">
 							<button class="ibtn" id="short-dec">-</button>
-							<input
-								type="number"
-								name="short-input"
-								id="short-input"
-								min="1"
-								max="180"
-							/>
+							<input type="number" name="short-input" id="short-input" min="1" max="180" />
 							<button class="ibtn" id="short-inc">+</button>
 							minutes
 						</div>
 					</div>
 					<div class="setting">
-						<label for="long-input"
-							>Long Break: <span></span
-						></label>
+						<label for="long-input">Long Break: <span></span></label>
 						<div class="input-holder">
 							<button class="ibtn" id="long-dec">-</button>
-							<input
-								type="number"
-								name="long-input"
-								id="long-input"
-								min="1"
-								max="180"
-							/>
+							<input type="number" name="long-input" id="long-input" min="1" max="180" />
 							<button class="ibtn" id="long-inc">+</button>
 							minutes
 						</div>
@@ -157,13 +112,7 @@
 						Number of focus sessions between long breaks.
 						<div class="input-holder">
 							<button class="ibtn" id="rounds-dec">-</button>
-							<input
-								type="number"
-								name="rounds-input"
-								id="rounds-input"
-								min="1"
-								max="18"
-							/>
+							<input type="number" name="rounds-input" id="rounds-input" min="1" max="18" />
 							<button class="ibtn" id="rounds-inc">+</button>
 							rounds
 						</div>
@@ -189,80 +138,370 @@
 					<h2>Sounds & Notifications</h2>
 					<div class="setting">
 						<label for="notif">Notifications:</label>
-						<select
-							name="notif"
-							id="notif-select"
-							title="Notification Type"
-						>
+						<select name="notif" id="notif-select" title="Notification Type">
 							<option value="enabled">Enabled</option>
 							<option value="silent">Silent</option>
 							<option value="disabled">Disabled</option>
 						</select>
 						<br /><br />
-						Make sure that your browser allows notifications from
-						this site.
+						Make sure that your browser allows notifications from this site.
 					</div>
+					<div class="setting">
+						<label for="notif">White Noise:</label>
+						<select name="notif" id="audio-select" title="Notification Type">
+							<option value="disabled" selected>Disabled</option>
+							<option value="noise">Enabled During Focus Sessions</option>
+						</select>
+						<br /><br />
+						Make sure that your browser allows sound from this site.
+					</div>
+				</section>
+				<section class="section">
+					<h2>Backup and Restore</h2>
+					<button id="create-backup" class="hover-shadow">Create Backup</button>
+					<label for="backup-restore" id="backup-restore-label" class="hover-shadow"><input type="file" accept=".json" id="backup-restore">Restore Backup</label>
+				</section>
+				<section class="section">
+					<h2>About Tomodoro</h2>
+					<div id="about-desc">
+						Tomodoro is an open source pomodoro web app with features like offline support and PIP mode.
+					</div>
+					<a href="https://github.com/lazy-guy/tomodoro" id="github-link" target="_blank" class="button-link hover-shadow">
+						<img alt="GitHub" src="./GitHub-Mark-64px.png" />
+						View on GitHub
+					</a>
 				</section>
 				<section class="section">
 					<h2>About PIP mode</h2>
-					Tomodoro supports Always on Top mode, or Picture-In-Picture
-					mode, right in the browser, without having to install any
-					electron app.<br />
-					PIP mode is supported on Chromium based browsers(Tested on
-					desktop and android Chrome).<br />
+					Tomodoro supports Always on Top mode, or Picture-In-Picture mode, right in the browser, without
+					having to install any electron app.<br />
+					PIP mode is supported on Chromium based browsers(Tested on Chrome and Edge).<br />
 					Safari not tested (yet) but might work.<br />
-					On desktop firefox, PIP button will only make the video visible but will not activate PIP. To switch to PIP mode, right click on the video and select "Watch in Picture-In-Picture".
+					On desktop Firefox, PIP button will only make the video visible but will not activate PIP. To switch
+					to PIP mode, right click on the video and select "Watch in Picture-In-Picture".
 					<br /><br /><br />
-					<h2>PIP mode on mobile devices</h2>
-					If you are using a browser which does not support the picture-in-piture API, then it will make the video element visible. In order to switch to PIP mode, make the video fullscreen and then
-					go to your device's homescreen without exiting fullscreen. If
-					your browser is supported then PIP mode will be activated.
+					<h2>PIP mode on Chrome for Android</h2>
+					If you are using Chrome for Android, then the PIP button will make the video element visible. In
+					order to switch to PIP mode, make the video fullscreen and then go to your device's homescreen(by
+					pressing home button or using navigation gesture) without exiting fullscreen. PIP Mode get be
+					activated.
 				</section>
-				<section class="section">
-					<h2>About</h2>
-					<div id="about">
-						<div id="about-name">Tomodoro</div>
-						<div id="about-desc">
-							Tomodoro is an open source pomodoro web app with
-							features like offline support and PIP mode.
-						</div>
-						<a
-							href="https://github.com/lazy-guy/tomodoro"
-							target="_blank"
-							id="github-link"
-						>
-							<img
-								id="githublogoimg"
-								alt="GitHub"
-								src="./GitHub-Mark-64px.png"
-							/>
-							View on GitHub
-						</a>
+			</div>
+		</div>
+		<div id="statistics" class="scrollbar">
+			<div class="menu-title">
+				Statistics
+				<button id="closestats" class="crossbtn" title="Close Statistics"></button>
+			</div>
+			<div class="content">
+				<div class="setting">
+					<h3>Show Statistics of:</h3>
+					<div id="filters" class="scrollbar">
+						<label class="task-chip">
+							<input type="checkbox" id="all" checked />
+							<span class="chip-task-name">All Tasks</span>
+						</label>
 					</div>
-				</section>
+				</div>
+				<div class="setting">
+					<label for="stat-time-select">Time Period: </label>
+					<select id="stat-time-select">
+						<option value="1">Past Day</option>
+						<option value="7" selected>Past Week</option>
+						<option value="365">Past Year</option>
+						<option value="all">All Time</option>
+					</select>
+				</div>
+				<br /><br />
+				<h2>Overview</h2>
+				<div id="stat-summary" class="remark">
+					You focused for a total duration of
+					<span id="stat-summary-total"></span>
+					consisting of
+					<span id="stat-summary-rounds"></span>
+					Focus Rounds with an average round duration of
+					<span id="stat-summary-average"></span>
+					<br /><br />
+					Shortest round duration: <span id="stat-summary-shortest"></span>
+					<br />
+					Longest round duration: <span id="stat-summary-longest"></span>
+				</div>
+				<h2>Time Distribution:</h2>
+				<div id="pie-container">
+					<div id="pie">
+						<svg viewbox="0 0 120 120"></svg>
+					</div>
+					<div id="pie-card-container" class="scrollbar"></div>
+				</div>
+				<h2>Time Spent per Task:</h2>
+				<div id="timespent" class="stat-chart scrollbar"></div>
+				<br /><br />
+				<h2>Time Spent per 6 Hours:</h2>
+				<div id="timesixhourly" class="stat-chart scrollbar">
+					<div class="task-bar-container">
+						<div class="legend">00:00 - 06:00</div>
+						<div class="bar-container">
+							<div class="bar" id="hourly-0-6">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">06:00 - 12:00</div>
+						<div class="bar-container">
+							<div class="bar" id="hourly-6-12">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">12:00 - 18:00</div>
+						<div class="bar-container">
+							<div class="bar" id="hourly-12-18">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">18:00 - 24:00</div>
+						<div class="bar-container">
+							<div class="bar" id="hourly-18-24">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="remark-hourly" class="remark">
+					You were most productive between <span class="remark-value"></span>
+				</div>
+				<h2>Time Spent per Day:</h2>
+				<div id="timedaily" class="stat-chart scrollbar">
+					<div class="task-bar-container">
+						<div class="legend">Monday</div>
+						<div class="bar-container">
+							<div class="bar" id="day-monday">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">Tuesday</div>
+						<div class="bar-container">
+							<div class="bar" id="day-tuesday">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">Wednesday</div>
+						<div class="bar-container">
+							<div class="bar" id="day-wednesday">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">Thursday</div>
+						<div class="bar-container">
+							<div class="bar" id="day-thursday">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">Friday</div>
+						<div class="bar-container">
+							<div class="bar" id="day-friday">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">Saturday</div>
+						<div class="bar-container">
+							<div class="bar" id="day-saturday">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">Sunday</div>
+						<div class="bar-container">
+							<div class="bar" id="day-sunday">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="remark-daily" class="remark">
+					You were most productive on <span class="remark-value"></span>
+				</div>
+				<h2>Time Spent per Month:</h2>
+				<div id="timemonthly" class="stat-chart scrollbar">
+					<div class="task-bar-container">
+						<div class="legend">January</div>
+						<div class="bar-container">
+							<div class="bar" id="month-january">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">February</div>
+						<div class="bar-container">
+							<div class="bar" id="month-february">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">March</div>
+						<div class="bar-container">
+							<div class="bar" id="month-march">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">April</div>
+						<div class="bar-container">
+							<div class="bar" id="month-april">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">May</div>
+						<div class="bar-container">
+							<div class="bar" id="month-may">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">June</div>
+						<div class="bar-container">
+							<div class="bar" id="month-june">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">July</div>
+						<div class="bar-container">
+							<div class="bar" id="month-july">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">August</div>
+						<div class="bar-container">
+							<div class="bar" id="month-august">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">September</div>
+						<div class="bar-container">
+							<div class="bar" id="month-september">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">October</div>
+						<div class="bar-container">
+							<div class="bar" id="month-october">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">November</div>
+						<div class="bar-container">
+							<div class="bar" id="month-november">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+					<div class="task-bar-container">
+						<div class="legend">December</div>
+						<div class="bar-container">
+							<div class="bar" id="month-december">
+								<div class="stat-value">21:11</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="remark-monthly" class="remark">
+					You were most productive in <span class="remark-value"></span>
+				</div>
+				<details id="stat-details">
+					<summary><h2>Focus Round Records</h2></summary>
+					<div id="round-entries"></div>
+				</details>
+			</div>
+		</div>
+		<div id="managetasks" class="scrollbar">
+			<div class="menu-title">
+				Tasks
+				<button id="closetasks" class="crossbtn" title="Return to main screen"></button>
+			</div>
+			<div class="content">
+				<h2>Your Tasks</h2>
+				Here you can manage your tasks.
+				<br /><br />
+				<div id="task-container"></div>
+				<form id="newtask" class="task">
+					<input
+						id="new-task-name"
+						name="taskname"
+						type="text"
+						min="1"
+						maxlength="25"
+						placeholder="Add New Task"
+					/>
+					<button type="submit" title="Create new task" class="crossbtn" id="new-task-btn"></button>
+				</form>
 			</div>
 		</div>
 		<div id="firstload">
 			<div id="firstloadcontent">
 				<h2>Welcome to Tomodoro!</h2>
-				Tomodoro is an open source pomodoro web app with offline support
-				and PIP mode.
+				Tomodoro is an open source pomodoro web app with cool features like PIP Mode, white noise, tasks,
+				statistics and offline support.
 				<br /><br /><br />
+				<h2>What's New</h2>
+				<ul id="new-list">
+					<li>
+						<h3>Tasks & Statistics</h3>
+						<div class="whats-new-desc">
+							You can now create tasks and track the time spent focusing on these tasks. All the data is
+							stored in your browser.
+						</div>
+					</li>
+					<li>
+						<h3>White Noise</h3>
+						<div class="whats-new-desc">You can now listen to white noise during focus rounds.</div>
+					</li>
+				</ul>
+				<br /><br />
 				<h2>About PIP mode</h2>
-				Tomodoro supports Always on Top mode, or Picture-In-Picture
-				mode, right in the browser, without having to install any
-				electron app.<br />
-				PIP mode is supported on Chromium based browsers(Tested on
-				desktop and android Chrome).<br />
+				Tomodoro supports Always on Top mode, or Picture-In-Picture mode, right in the browser, without having
+				to install any electron app.<br />
+				PIP mode is supported on Chromium based browsers(Tested on Chrome and Edge).<br />
 				Safari not tested (yet) but might work.<br />
-				On desktop firefox, PIP button will only make the video visible but will not activate PIP. To switch to PIP mode, right click on the video and select "Watch in Picture-In-Picture".
+				On desktop Firefox, PIP button will only make the video visible but will not activate PIP. To switch to
+				PIP mode, right click on the video and select "Watch in Picture-In-Picture".
 				<br /><br /><br />
-				<h2>PIP mode on mobile devices</h2>
-				If you are using a browser which does not support the picture-in-piture API, then it will make the video element visible. In order to switch to PIP mode, make the video fullscreen and then
-				go to your device's homescreen without exiting fullscreen. If
-				your browser is supported then PIP mode will be activated.
+				<h2>PIP mode on Chrome for Android</h2>
+				If you are using Chrome for Android, then the PIP button will make the video element visible. In order
+				to switch to PIP mode, make the video fullscreen and then go to your device's homescreen(by pressing
+				home button or using navigation gesture) without exiting fullscreen. PIP Mode get be activated.
 			</div>
-			<button id="closeintro">Let's Get Started!</button>
+			<button id="closeintro" class="hover-shadow">Let's Get Started!</button>
 		</div>
 		<script src="./index.js"></script>
 	</body>
