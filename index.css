@@ -728,7 +728,9 @@ video.pipactive {
 	font-size: 20px;
 	outline-color: var(--coloraccent);
 	flex-grow: 1;
+	flex-shrink: 1;
 	border: none;
+	width: 200px;
 }
 
 #new-task-name:focus {
@@ -743,9 +745,6 @@ video.pipactive {
 	width: 60px;
 	height: 60px;
 	border: none;
-	display: inline-flex;
-	align-items: flex-start;
-	justify-content: center;
 	font-size: 40px;
 	cursor: pointer;
 	z-index: 0;
