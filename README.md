@@ -1,4 +1,5 @@
 # Tomodoro
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Z8Z6E84CZ)
 
 A pomodoro web app with PIP mode, white noise generation, tasks and more!
 

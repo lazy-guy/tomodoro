@@ -438,6 +438,7 @@ h3 {
 	justify-content: center;
 	border-radius: 4px;
 	margin-right: 10px;
+	margin-bottom: 10px;
 }
 
 .button-link img {
@@ -449,6 +450,10 @@ h3 {
 #github-link {
 	background-color: #efefff;
 	color: #000000;
+}
+
+#kofi-link {
+	margin-top: 5px;
 }
 
 canvas {
