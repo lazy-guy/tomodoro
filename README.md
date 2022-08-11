@@ -1,5 +1,6 @@
 # Tomodoro
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Z8Z6E84CZ)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Z8Z6E84CZ)&nbsp;
+<a href="https://www.producthunt.com/posts/tomodoro?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-tomodoro" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=355079&theme=light" alt="Tomodoro - Simple&#0032;Pomodoro&#0032;timer&#0032;for&#0032;the&#0032;web | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 A pomodoro web app with PIP mode, white noise generation, tasks and more!
 
