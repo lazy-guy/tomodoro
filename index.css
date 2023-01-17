@@ -481,6 +481,13 @@ video.pipactive {
 	display: block;
 }
 
+.pip::after {
+	content: "Picture in Picture Mode Active";
+	display: block;
+	position: absolute;
+	top: 50%;
+}
+
 #firstload {
 	display: none;
 	width: 100vw;
