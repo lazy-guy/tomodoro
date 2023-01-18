@@ -1476,8 +1476,6 @@ let canvas = document.createElement("canvas");
 canvas.width = canvas.height = 400;
 let ctx = canvas.getContext("2d");
 
-let video = document.createElement("video");
-
 function loop() {
 	ctx.fillStyle = accents[theme][themeAccent]["--bgcolor"];
 	ctx.fillRect(0, 0, 400, 400);
@@ -1514,63 +1512,114 @@ function loop() {
 	ctx.stroke();
 }
 
-if (document.pictureInPictureEnabled || document.fullscreenEnabled) {
-	document.body.appendChild(video);
-	document.body.appendChild(canvas);
-	canvas.id = "canvas";
-	let stream = canvas.captureStream();
-	video.srcObject = stream;
-	video.autoplay = false;
-	video.controls = true;
-	video.addEventListener("play", () => {
-		if (!roundInfo.running) pauseplay();
-	});
-	video.addEventListener("pause", () => {
-		if (roundInfo.running) pauseplay();
-	});
-	loop();
+if ('documentPictureInPicture' in window) {
+	let timerContainer = null;
+	let pipWindow = null;
 
-	video.onenterpictureinpicture = () => {
-		pipActive = true;
-		video.classList.add("pipactive");
-	};
-	video.onleavepictureinpicture = () => {
-		if (document.fullscreenElement) return;
-		pipActive = false;
-		video.classList.remove("pipactive");
-	};
-	video.onfullscreenchange = (ev) => {
-		if (document.fullscreenElement) {
-			pipActive = true;
-			video.classList.add("pipactive");
-		} else {
-			pipActive = false;
-			video.classList.remove("pipactive");
+	async function enterPiP() {
+		const timer = document.querySelector("#timer");
+		timerContainer = timer.parentNode;
+		timerContainer.classList.add("pip");
+
+		const pipOptions = {
+			initialAspectRatio: timer.clientWidth / timer.clientHeight,
+			lockAspectRatio: true,
+			copyStyleSheets: true,
+		};
+
+		pipWindow = await documentPictureInPicture.requestWindow(pipOptions);
+
+		// Add timer to the PiP window.
+		pipWindow.document.body.append(timer);
+
+		// Listen for the PiP closing event to put the timer back.
+		pipWindow.addEventListener("unload", onLeavePiP.bind(pipWindow), {
+			once: true,
+		});
+	}
+
+	// Called when the PiP window has closed.
+	function onLeavePiP() {
+		if (this !== pipWindow) {
+			return;
 		}
-	};
+
+		// Add the timer back to the main window.
+		const timer = pipWindow.document.querySelector("#timer");
+		timerContainer.append(timer);
+		timerContainer.classList.remove("pip");
+		pipWindow.close();
+
+		pipWindow = null;
+		timerContainer = null;
+	}
 	document.getElementById("popupbtn").addEventListener("click", () => {
-		if (document.pictureInPictureElement) {
-			document.exitPictureInPicture();
-			video.classList.remove("pipactive");
-			return;
+		if (!pipWindow) {
+			enterPiP();
+		} else {
+			onLeavePiP.bind(pipWindow)();
 		}
-		if (pipActive) {
-			pipActive = false;
-			video.classList.remove("pipactive");
-			return;
-		}
-		loop();
-		video.play();
-		video.classList.add("pipactive");
-		if (document.pictureInPictureEnabled) {
-			video.requestPictureInPicture();
-		}
-		pipActive = true;
 	});
 } else {
-	document.getElementById("popupbtn").style.display = "none";
-}
+	let video = document.createElement("video");
 
+	if (document.pictureInPictureEnabled || document.fullscreenEnabled) {
+		document.body.appendChild(video);
+		document.body.appendChild(canvas);
+		canvas.id = "canvas";
+		let stream = canvas.captureStream();
+		video.srcObject = stream;
+		video.autoplay = false;
+		video.controls = true;
+		video.addEventListener("play", () => {
+			if (!roundInfo.running) pauseplay();
+		});
+		video.addEventListener("pause", () => {
+			if (roundInfo.running) pauseplay();
+		});
+		loop();
+
+		video.onenterpictureinpicture = () => {
+			pipActive = true;
+			video.classList.add("pipactive");
+		};
+		video.onleavepictureinpicture = () => {
+			if (document.fullscreenElement) return;
+			pipActive = false;
+			video.classList.remove("pipactive");
+		};
+		video.onfullscreenchange = (ev) => {
+			if (document.fullscreenElement) {
+				pipActive = true;
+				video.classList.add("pipactive");
+			} else {
+				pipActive = false;
+				video.classList.remove("pipactive");
+			}
+		};
+		document.getElementById("popupbtn").addEventListener("click", () => {
+			if (document.pictureInPictureElement) {
+				document.exitPictureInPicture();
+				video.classList.remove("pipactive");
+				return;
+			}
+			if (pipActive) {
+				pipActive = false;
+				video.classList.remove("pipactive");
+				return;
+			}
+			loop();
+			video.play();
+			video.classList.add("pipactive");
+			if (document.pictureInPictureEnabled) {
+				video.requestPictureInPicture();
+			}
+			pipActive = true;
+		});
+	} else {
+		document.getElementById("popupbtn").style.display = "none";
+	}
+}
 //#endregion
 
 let versionNo = 1;
