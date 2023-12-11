@@ -1180,3 +1180,8 @@ video.pipactive {
 #pie svg path:hover {
 	opacity: 1;
 }
+
+#slider-container {
+	text-align: center;
+	margin-top: 20px;
+}

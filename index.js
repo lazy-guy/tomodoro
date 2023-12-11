@@ -1,3 +1,17 @@
+// Get the volume slider and volume value elements
+const volumeSlider = document.getElementById('volume-slider');
+const volumeValue = document.getElementById('volume-value');
+// Set an initial value for the volume variable
+let volume = parseFloat(volumeSlider.value);
+// Add an event listener to update the volume variable when the slider is moved
+volumeSlider.addEventListener('input', () => {
+  volume = parseFloat(volumeSlider.value);
+  // Update the displayed volume value
+  volumeValue.textContent = volume;
+  // Update the volume of the audio element
+  gain.gain.linearRampToValueAtTime(volume / 100, audioCtx.currentTime + 1);
+});
+
 if ("serviceWorker" in navigator) {
 	navigator.serviceWorker.register("./sw.js");
 }
@@ -299,7 +313,7 @@ function initNoise() {
 	noiseSource.buffer = buffer;
 
 	gain = audioCtx.createGain();
-	gain.gain = 0.5;
+	gain.gain = volume / 100;
 
 	noiseSource.connect(gain);
 	gain.connect(audioCtx.destination);
@@ -329,11 +343,11 @@ function fadeIn() {
 	if (!isFadingOut) {
 		initNoise();
 		gain.gain.setValueAtTime(0, audioCtx.currentTime);
-		gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1);
+		gain.gain.linearRampToValueAtTime(volume / 100, audioCtx.currentTime + 1);
 		playNoise(0);
 	} else {
 		gain.gain.setValueAtTime(gain.gain.value, audioCtx.currentTime);
-		gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 1);
+		gain.gain.linearRampToValueAtTime(volume / 100, audioCtx.currentTime + 1);
 	}
 }
 
