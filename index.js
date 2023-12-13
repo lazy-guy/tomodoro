@@ -908,8 +908,23 @@ async function loadStatistics(updateEntryCards = true) {
 	let timeValue = statTimeSelect.value;
 	let rec = await getRecords();
 	if (!(timeValue === "all")) {
-		let tt = Date.now() - parseInt(timeValue) * 24 * 60 * 60 * 1000;
-		rec = rec.filter((r) => r.d >= tt && filteredTasks.has(r.n));
+		if (parseInt(timeValue) === 0) {  // Today
+			// Get the current date without the time component
+			const currentDate = new Date();
+			currentDate.setHours(0, 0, 0, 0);
+
+			// Calculate the start and end timestamps for the current day
+			const startOfDay = currentDate.getTime();
+			const endOfDay = startOfDay + 24 * 60 * 60 * 1000;
+
+			rec = rec.filter((r) => {
+				// Check if the task is within the current day
+				return r.d >= startOfDay && r.d < endOfDay && filteredTasks.has(r.n);
+			});
+		} else {
+			let tt = Date.now() - parseInt(timeValue) * 24 * 60 * 60 * 1000;
+			rec = rec.filter((r) => r.d >= tt && filteredTasks.has(r.n));
+		}
 	}
 	let charts = [];
 	let maxvalue = 0;
