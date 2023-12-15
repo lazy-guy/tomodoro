@@ -62,6 +62,11 @@
 					</svg>
 				</button>
 			</div>
+			<div id="slider-container">
+				<label for="volume-slider">Volume:</label>
+				<input type="range" id="volume-slider" min="0" max="100" step="1" value="5">
+				<span id="volume-value">5</span>
+			</div>
 			<button id="resetround" title="Reset Current Timer">
 				<svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
 					<path d="M12 12h4v24h-4zm7 12l17 12V12z" />
@@ -209,6 +214,7 @@
 				<div class="setting">
 					<label for="stat-time-select">Time Period: </label>
 					<select id="stat-time-select">
+						<option value="0">Today</option>
 						<option value="1">Past Day</option>
 						<option value="7" selected>Past Week</option>
 						<option value="365">Past Year</option>
