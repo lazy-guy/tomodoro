@@ -400,6 +400,23 @@ h3 {
 	margin-bottom: 10px;
 }
 
+.input-box {
+    font-size: 12px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border: 2px solid var(--coloraccent);
+    border-radius: 5px;
+    color: var(--bgcolor);
+    background-color: var(--coloraccent);
+    cursor: pointer;
+    margin-top: 5px;
+    display: inline-block;
+    width: fit-content;
+}
+.input-box::placeholder {
+	color: var(--bgcolor);
+}
+
 #create-backup, #backup-restore-label {
 	font-size: 22px;
 	padding: 5px 10px;

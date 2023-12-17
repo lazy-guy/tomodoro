@@ -167,6 +167,13 @@
 					<label for="backup-restore" id="backup-restore-label" class="hover-shadow"><input type="file" accept=".json" id="backup-restore">Restore Backup</label>
 				</section>
 				<section class="section">
+					<h2>Manual Record</h2>
+					<input type="text" id="input-task-name" class="input-box" placeholder="Task">
+					<input type="datetime-local" id="input-date-time" class="input-box" name="Date">
+					<input type="number" min="1" id="input-time-duration" class="input-box" placeholder="Duration">
+					<button id="manual-add" class="input-box">Add Record</button>
+				</section>
+				<section class="section">
 					<h2>About Tomodoro</h2>
 					<div id="about-desc">
 						Tomodoro is an open source pomodoro web app with features like offline support and PIP mode.
