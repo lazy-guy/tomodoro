@@ -283,7 +283,7 @@ if (localStorage.getItem("pomo-audio-type")) {
 	audioSelect.value = "disabled";
 }
 
-if(localStorage.getItem("pomo-audio-volume")) {
+if (localStorage.getItem("pomo-audio-volume")) {
 	volume = parseFloat(localStorage.getItem("pomo-audio-volume")) || 80;
 }
 
@@ -301,6 +301,10 @@ audioSelect.addEventListener("change", () => {
 	audioType = audioSelect.value;
 	if (audioType !== "noise" && isWhiteNoiseRunning) {
 		fadeOut();
+	} else if (roundInfo.running) {
+		if (roundInfo.current === "focus" && audioType === "noise") {
+			fadeIn();
+		}
 	}
 	volumeSliderDisplay(audioType);
 	localStorage.setItem("pomo-audio-type", audioType);
@@ -331,7 +335,7 @@ function initNoise() {
 volumeSlider.addEventListener("input", () => {
 	volume = parseFloat(volumeSlider.value);
 	volumeValue.textContent = volume;
-	if(volume === 0) {
+	if (volume === 0) {
 		volumeContainer.classList.add("muted");
 	} else {
 		volumeContainer.classList.remove("muted");
