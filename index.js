@@ -1,17 +1,3 @@
-// Get the volume slider and volume value elements
-const volumeSlider = document.getElementById('volume-slider');
-const volumeValue = document.getElementById('volume-value');
-// Set an initial value for the volume variable
-let volume = parseFloat(volumeSlider.value);
-// Add an event listener to update the volume variable when the slider is moved
-volumeSlider.addEventListener('input', () => {
-  volume = parseFloat(volumeSlider.value);
-  // Update the displayed volume value
-  volumeValue.textContent = volume;
-  // Update the volume of the audio element
-  gain.gain.linearRampToValueAtTime(volume / 100, audioCtx.currentTime + 1);
-});
-
 if ("serviceWorker" in navigator) {
 	navigator.serviceWorker.register("./sw.js");
 }
@@ -34,6 +20,10 @@ let progress = document.getElementById("progress");
 let nextbtn = document.getElementById("next");
 let menubtn = document.getElementById("menubtn");
 let taskSelect = document.getElementById("task-select");
+
+let volumeContainer = document.getElementById("slider-container");
+let volumeSlider = document.getElementById("volume-slider");
+let volumeValue = document.getElementById("volume-value");
 
 const timerInputs = {
 	focus: document.getElementById("focus-input"),
@@ -62,6 +52,8 @@ let config = {
 };
 
 let audioType = "";
+
+let volume = 80;
 
 const audioTypes = ["noise"];
 
@@ -270,6 +262,16 @@ setup();
 
 //#region Audio
 
+function volumeSliderDisplay() {
+	if (audioType === "noise") {
+		volumeContainer.classList.remove("disabled");
+	} else {
+		volumeContainer.classList.add("disabled");
+	}
+	volumeValue.textContent = volume;
+	volumeSlider.value = volume;
+}
+
 let audioSelect = document.getElementById("audio-select");
 if (localStorage.getItem("pomo-audio-type")) {
 	let audioTypeL = localStorage.getItem("pomo-audio-type");
@@ -281,6 +283,12 @@ if (localStorage.getItem("pomo-audio-type")) {
 	audioSelect.value = "disabled";
 }
 
+if(localStorage.getItem("pomo-audio-volume")) {
+	volume = parseFloat(localStorage.getItem("pomo-audio-volume")) || 80;
+}
+
+volumeSliderDisplay();
+
 let audioCtx;
 let noiseSource;
 let gain;
@@ -291,9 +299,10 @@ let isFadingOut = false;
 
 audioSelect.addEventListener("change", () => {
 	audioType = audioSelect.value;
-	if(audioType !== "noise" && isWhiteNoiseRunning) {
-		fadeOut()
+	if (audioType !== "noise" && isWhiteNoiseRunning) {
+		fadeOut();
 	}
+	volumeSliderDisplay(audioType);
 	localStorage.setItem("pomo-audio-type", audioType);
 });
 
@@ -318,6 +327,18 @@ function initNoise() {
 	noiseSource.connect(gain);
 	gain.connect(audioCtx.destination);
 }
+
+volumeSlider.addEventListener("input", () => {
+	volume = parseFloat(volumeSlider.value);
+	volumeValue.textContent = volume;
+	if(volume === 0) {
+		volumeContainer.classList.add("muted");
+	} else {
+		volumeContainer.classList.remove("muted");
+	}
+	if (gain) gain.gain.linearRampToValueAtTime(volume / 100, audioCtx.currentTime);
+	localStorage.setItem("pomo-audio-volume", volume);
+});
 
 function playNoise() {
 	noiseSource.loop = true;
@@ -908,7 +929,8 @@ async function loadStatistics(updateEntryCards = true) {
 	let timeValue = statTimeSelect.value;
 	let rec = await getRecords();
 	if (!(timeValue === "all")) {
-		if (parseInt(timeValue) === 0) {  // Today
+		if (parseInt(timeValue) === 0) {
+			// Today
 			// Get the current date without the time component
 			const currentDate = new Date();
 			currentDate.setHours(0, 0, 0, 0);
@@ -1541,7 +1563,7 @@ function loop() {
 	ctx.stroke();
 }
 
-if ('documentPictureInPicture' in window) {
+if ("documentPictureInPicture" in window) {
 	let timerContainer = null;
 	let pipWindow = null;
 
@@ -1562,15 +1584,15 @@ if ('documentPictureInPicture' in window) {
 		// so that the player looks the same.
 		[...document.styleSheets].forEach((styleSheet) => {
 			try {
-				const cssRules = [...styleSheet.cssRules].map((rule) => rule.cssText).join('');
-				const style = document.createElement('style');
+				const cssRules = [...styleSheet.cssRules].map((rule) => rule.cssText).join("");
+				const style = document.createElement("style");
 
 				style.textContent = cssRules;
 				pipWindow.document.head.appendChild(style);
 			} catch (e) {
-				const link = document.createElement('link');
+				const link = document.createElement("link");
 
-				link.rel = 'stylesheet';
+				link.rel = "stylesheet";
 				link.type = styleSheet.type;
 				link.media = styleSheet.media;
 				link.href = styleSheet.href;
