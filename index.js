@@ -1531,6 +1531,33 @@ let canvas = document.createElement("canvas");
 canvas.width = canvas.height = 400;
 let ctx = canvas.getContext("2d");
 
+let pipMethodSelect = document.getElementById("pip-method-select");
+let pipDoubleClickRestoreSelect = document.getElementById("pip-restore-select");
+
+let pipMethod = "documentPictureInPicture";
+
+if(localStorage.getItem("pomo-pip-method")) {
+	pipMethod = localStorage.getItem("pomo-pip-method");
+	pipMethodSelect.value = pipMethod;
+}
+
+let pipDoubleClickRestore = "disabled";
+
+if(localStorage.getItem("pomo-pip-restore")) {
+	pipDoubleClickRestore = localStorage.getItem("pomo-pip-restore");
+	pipDoubleClickRestoreSelect.value = pipDoubleClickRestore;
+}
+
+pipMethodSelect.addEventListener("change", function () {
+	pipMethod = this.value;
+	localStorage.setItem("pomo-pip-method", pipMethod);
+});
+
+pipDoubleClickRestoreSelect.addEventListener("change", function () {
+	pipDoubleClickRestore = this.value;
+	localStorage.setItem("pomo-pip-restore", pipDoubleClickRestore);
+});
+
 function loop() {
 	ctx.fillStyle = accents[theme][themeAccent]["--bgcolor"];
 	ctx.fillRect(0, 0, 400, 400);
@@ -1567,7 +1594,7 @@ function loop() {
 	ctx.stroke();
 }
 
-if ("documentPictureInPicture" in window) {
+if (pipMethod === "documentPictureInPicture" && "documentPictureInPicture" in window) {
 	let timerContainer = null;
 	let pipWindow = null;
 
@@ -1606,11 +1633,24 @@ if ("documentPictureInPicture" in window) {
 
 		// Add timer to the PiP window.
 		pipWindow.document.body.append(timer);
+		for (let prop in themes[theme].props) {
+			pipWindow.document.body.style.setProperty(prop, themes[theme].props[prop]);
+		}
+		for (let prop in accents[theme][themeAccent]) {
+			pipWindow.document.body.style.setProperty(prop, accents[theme][themeAccent][prop]);
+		}
 
 		// Listen for the PiP closing event to put the timer back.
 		pipWindow.addEventListener("unload", onLeavePiP.bind(pipWindow), {
 			once: true,
 		});
+
+		if (pipDoubleClickRestore === "enabled") {
+			// Add double click listener to the PiP window to close it.
+			pipWindow.document.addEventListener("dblclick", onLeavePiP.bind(pipWindow), {
+				once: true,
+			});
+		}
 	}
 
 	// Called when the PiP window has closed.

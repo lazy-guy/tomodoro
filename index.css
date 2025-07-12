@@ -419,7 +419,7 @@ h3 {
 	font-size: 20px;
 }
 
-#theme-select, #notif-select, #audio-select, #stat-time-select {
+.setting select {
 	background-color: var(--bgcolor2);
 	color: var(--color);
 	font-size: 20px;
