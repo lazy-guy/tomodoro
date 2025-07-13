@@ -640,6 +640,47 @@ document.getElementById("backup-restore").addEventListener("change", function ()
 	}
 });
 
+document.getElementById("manual-add").addEventListener("click", function () {
+    let taskName = document.getElementById("input-task-name").value.trim();
+    let dateTimeInput = document.getElementById("input-date-time").value.trim();
+    let timeDuration = parseInt(document.getElementById("input-time-duration").value.trim());
+
+    // Check if timeDuration is a positive number
+    if (timeDuration < 1) {
+        alert("Please enter a valid positive number for time duration!");
+        return;
+    }
+
+    if (dateTimeInput !== "" && taskName !== "") {
+        // Convert the selected date and time to epoch timestamp
+        let epochTimestamp = new Date(dateTimeInput).getTime();
+
+        let newRecord = { t: timeDuration, d: epochTimestamp, n: taskName };
+        let tr = db.transaction("records", "readwrite");
+        let objstore = tr.objectStore("records");
+        objstore.add(newRecord);
+        alert("Record added successfully!");
+
+        // Check if the task name is not already in the tasks array
+        if (!tasks.includes(newRecord.n)) {
+            // Add the task to the tasks array
+            tasks.push(newRecord.n);
+
+            // Create an element for the task
+            createTaskEl(newRecord.n);
+
+            // Check if the selected task is not set
+            if (!selectedTask) {
+                // Set the selected task to the new task
+                selectedTask = newRecord.n;
+                taskSelect.value = newRecord.n;
+            }
+        }
+    } else {
+        alert("Please enter values for time duration, date and time, and task name!");
+    }
+});
+
 let allCheckbox = document.getElementById("all");
 let pieCardContainer = document.getElementById("pie-card-container");
 let timeSpentChart = document.getElementById("timespent");
