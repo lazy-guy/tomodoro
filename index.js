@@ -97,6 +97,33 @@ timerWorker.addEventListener("message", (e) => {
 
 //#region Timer Actions
 
+let autoStartFocusRounds = true;
+let autoStartBreakRounds = true;
+
+let autoStartFocusSelect = document.getElementById("auto-start-focus");
+let autoStartBreakSelect = document.getElementById("auto-start-break");
+
+if(localStorage.getItem("pomo-auto-start-focus")) {
+	autoStartFocusRounds = localStorage.getItem("pomo-auto-start-focus") === "true";
+}
+
+if(localStorage.getItem("pomo-auto-start-break")) {
+	autoStartBreakRounds = localStorage.getItem("pomo-auto-start-break") === "true";
+}
+
+autoStartFocusSelect.value = autoStartFocusRounds ? "true" : "false";
+autoStartBreakSelect.value = autoStartBreakRounds ? "true" : "false";
+
+autoStartFocusSelect.addEventListener("change", function() {
+	autoStartFocusRounds = this.value === "true";
+	localStorage.setItem("pomo-auto-start-focus", this.value);
+});
+
+autoStartBreakSelect.addEventListener("change", function() {
+	autoStartBreakRounds = this.value === "true";
+	localStorage.setItem("pomo-auto-start-break", this.value);
+});
+
 function nextRound() {
 	let finished = fullname[roundInfo.current];
 	let body = "Begin ";
@@ -123,6 +150,18 @@ function nextRound() {
 	timer.className = "t-" + roundInfo.current;
 	roundInfo.t = 0;
 	setTime();
+	if(roundInfo.running){
+		let nextRunningStatus = roundInfo.running;
+		if (roundInfo.current === "focus") {
+			nextRunningStatus = autoStartFocusRounds;
+		} else {
+			nextRunningStatus = autoStartBreakRounds;
+		}
+		if (roundInfo.running === true && nextRunningStatus === false) {
+			pauseplay();
+		}
+		roundInfo.running = nextRunningStatus;
+	}
 	if (roundInfo.running) {
 		if (roundInfo.current === "focus" && audioType === "noise") {
 			fadeIn();
